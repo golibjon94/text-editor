@@ -1,0 +1,85 @@
+<div class="container mt-5 pt-4">
+  <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+    <div class="card-header bg-primary text-white p-4">
+      <h2 class="mb-0"><i class="bi bi-image-fill me-2"></i> Image Resizer</h2>
+      <p class="mb-0 opacity-75">Upload images and change their dimensions</p>
+    </div>
+
+    <div class="card-body p-4">
+      <div class="row g-4">
+        <!-- Settings Section -->
+        <div class="col-lg-4">
+          <div class="mb-4">
+            <label class="form-label fw-bold">Select Image</label>
+            <input type="file" class="form-control shadow-none" (change)="onFileSelected($event)" accept="image/*">
+            <div class="form-text mt-1">Or drag and drop an image into the preview area</div>
+          </div>
+
+          @if (originalImage()) {
+            <div class="mb-3">
+              <label class="form-label fw-bold d-block">Dimensions</label>
+              <div class="input-group mb-2">
+                <span class="input-group-text bg-light border-end-0">W</span>
+                <input type="number" class="form-control shadow-none border-start-0"
+                       [(ngModel)]="width" (input)="onDimensionChange('width')">
+                <span class="input-group-text bg-light">px</span>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-light border-end-0">H</span>
+                <input type="number" class="form-control shadow-none border-start-0"
+                       [(ngModel)]="height" (input)="onDimensionChange('height')">
+                <span class="input-group-text bg-light">px</span>
+              </div>
+
+              <div class="form-check mb-4">
+                <input class="form-check-input" type="checkbox" id="aspectRatio" [(ngModel)]="maintainAspectRatio">
+                <label class="form-check-label" for="aspectRatio">Maintain Aspect Ratio</label>
+              </div>
+
+              <div class="d-flex gap-2 mb-3">
+                <button class="btn btn-primary flex-grow-1 py-2 fw-bold" (click)="resizeImage()">
+                  <i class="bi bi-gear-fill me-1"></i> Resize
+                </button>
+                <button class="btn btn-outline-danger py-2 px-3 fw-bold" (click)="reset()" title="Reset">
+                  <i class="bi bi-arrow-clockwise"></i> Reset
+                </button>
+              </div>
+
+              @if (resizedImageUrl()) {
+                <a [href]="resizedImageUrl()" [download]="getDownloadFileName()" class="btn btn-success w-100 py-2 fw-bold">
+                  <i class="bi bi-download me-1"></i> Download
+                </a>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Preview Section -->
+        <div class="col-lg-8">
+          <div class="preview-box rounded-3 d-flex align-items-center justify-content-center bg-light border border-dashed border-2 p-3"
+               [class.drag-over]="isDragging()"
+               (dragover)="onDragOver($event)"
+               (dragleave)="onDragLeave($event)"
+               (drop)="onDrop($event)">
+            @if (resizedImageUrl()) {
+              <img [src]="resizedImageUrl()" class="img-fluid rounded shadow-sm" alt="Resized">
+            } @else if (originalImage()) {
+              <img [src]="originalImage()" class="img-fluid rounded shadow-sm opacity-50" alt="Original Preview">
+            } @else {
+              <div class="text-center text-muted p-5">
+                <i class="bi bi-images display-1 mb-3 d-block opacity-25" [class.text-primary]="isDragging()"></i>
+                <p>{{ isDragging() ? 'Drop the image here' : 'No image selected' }}</p>
+              </div>
+            }
+          </div>
+
+          @if (originalImage()) {
+             <div class="mt-2 text-center text-muted small">
+                Original size: {{originalWidth}} x {{originalHeight}} px
+             </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
