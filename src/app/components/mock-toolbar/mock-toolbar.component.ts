@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Editor } from 'ngx-editor';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +12,9 @@ import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap'
 })
 export class MockToolbarComponent {
   editor = input.required<Editor>();
+
+  activeTab = 'Home';
+  tabs = ['File', 'Home', 'Insert', 'Layout', 'References', 'Review', 'View', 'Help'];
 
   fontSizes = ['8pt', '9pt', '10pt', '11pt', '12pt', '14pt', '16pt', '18pt', '20pt', '22pt', '24pt', '26pt', '28pt', '36pt', '48pt', '72pt'];
   fontFamilies = [
@@ -30,6 +33,33 @@ export class MockToolbarComponent {
 
   currentFontSize = '12pt';
   currentFontFamily = 'Arial';
+
+  constructor() {
+    effect((onCleanup) => {
+      const editor = this.editor();
+      if (!editor) return;
+
+      const sub = editor.update.subscribe((viewUpdate: any) => {
+        this.updateToolbarState(viewUpdate.state);
+      });
+
+      onCleanup(() => sub.unsubscribe());
+    });
+  }
+
+  updateToolbarState(state: any) {
+    const { selection } = state;
+    const { $from } = selection;
+
+    // Get marks at cursor
+    const marks = $from.marks();
+
+    const fontFamilyMark = marks.find((m: any) => m.type.name === 'font_family');
+    this.currentFontFamily = fontFamilyMark ? fontFamilyMark.attrs.family : 'Arial';
+
+    const fontSizeMark = marks.find((m: any) => m.type.name === 'font_size');
+    this.currentFontSize = fontSizeMark ? fontSizeMark.attrs.size : '12pt';
+  }
 
   execute(command: string, value?: any): void {
     // In a real ngx-editor setup, we'd use the editor commands
@@ -53,6 +83,7 @@ export class MockToolbarComponent {
       case 'indent': this.editor().commands.indent().exec(); break;
       case 'outdent': this.editor().commands.outdent().exec(); break;
     }
+    this.editor().view.focus();
   }
 
   insertLink(): void {
@@ -86,6 +117,7 @@ export class MockToolbarComponent {
       tr.addMark(from, to, markType.create({ size }));
     }
     view.dispatch(tr);
+    view.focus();
   }
 
   setFontFamily(family: string): void {
@@ -105,6 +137,7 @@ export class MockToolbarComponent {
       tr.addMark(from, to, markType.create({ family }));
     }
     view.dispatch(tr);
+    view.focus();
   }
 
   setTextColor(color: string): void {
@@ -113,5 +146,21 @@ export class MockToolbarComponent {
 
   setBackgroundColor(color: string): void {
     this.editor().commands.backgroundColor(color).exec();
+  }
+
+  setLayout(mode: 'portrait' | 'landscape'): void {
+    alert(`Layout changed to ${mode}`);
+  }
+
+  toggleRule(): void {
+    alert('Ruler toggled');
+  }
+
+  zoom(level: number): void {
+    alert(`Zoom set to ${level}%`);
+  }
+
+  showHelp(): void {
+    alert('Word-like Editor Help\n\nUse tabs to navigate through functions.');
   }
 }

@@ -1,134 +1,233 @@
-<div class="toolbar-container d-flex flex-wrap align-items-center p-1 bg-light border-bottom sticky-top shadow-sm">
-  <div class="toolbar-section px-2 border-end d-flex align-items-center">
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="execute('undo')" ngbTooltip="Undo (Ctrl+Z)">
-        <i class="bi bi-arrow-counterclockwise"></i>
-      </button>
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="execute('redo')" ngbTooltip="Redo (Ctrl+Y)">
-        <i class="bi bi-arrow-clockwise"></i>
-      </button>
-    </div>
-  </div>
-
-  <div class="toolbar-section px-2 border-end d-flex align-items-center">
-    <div ngbDropdown class="d-inline-block me-1">
-      <button type="button" class="btn btn-light btn-sm dropdown-toggle font-select-btn" id="fontFamilyDropdown" ngbDropdownToggle>
-        {{currentFontFamily}}
-      </button>
-      <div ngbDropdownMenu aria-labelledby="fontFamilyDropdown" class="font-dropdown-menu">
-        @for (family of fontFamilies; track family) {
-          <button ngbDropdownItem (click)="setFontFamily(family)" [style.font-family]="family">{{family}}</button>
-        }
+<div class="word-ribbon-container sticky-top shadow-sm">
+  <!-- Top Tabs -->
+  <div class="ribbon-tabs d-flex px-2 pt-1 border-bottom">
+    @for (tab of tabs; track tab) {
+      <div class="ribbon-tab px-3 py-1" [class.active]="activeTab === tab" (click)="activeTab = tab">
+        {{tab}}
       </div>
-    </div>
+    }
+  </div>
 
-    <div ngbDropdown class="d-inline-block">
-      <button type="button" class="btn btn-light btn-sm dropdown-toggle size-select-btn" id="fontSizeDropdown" ngbDropdownToggle>
-        {{currentFontSize}}
-      </button>
-      <div ngbDropdownMenu aria-labelledby="fontSizeDropdown" class="size-dropdown-menu">
-        @for (size of fontSizes; track size) {
-          <button ngbDropdownItem (click)="setFontSize(size)">{{size}}</button>
-        }
+  <!-- Ribbon Toolbar Content -->
+  <div class="ribbon-toolbar d-flex flex-wrap align-items-center p-1 bg-light border-bottom" [class.d-none]="activeTab !== 'Home'">
+
+    <!-- Clipboard Section -->
+    <div class="toolbar-group px-2 border-end d-flex flex-column align-items-center justify-content-center">
+      <div class="d-flex mb-1">
+        <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('undo')" ngbTooltip="Undo (Ctrl+Z)">
+          <i class="bi bi-arrow-counterclockwise"></i>
+        </button>
       </div>
+      <div class="group-label">Clipboard</div>
     </div>
-  </div>
 
-  <div class="toolbar-section px-2 border-end d-flex align-items-center">
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="execute('bold')" ngbTooltip="Bold (Ctrl+B)">
-        <i class="bi bi-type-bold"></i>
-      </button>
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="execute('italic')" ngbTooltip="Italic (Ctrl+I)">
-        <i class="bi bi-type-italic"></i>
-      </button>
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="execute('underline')" ngbTooltip="Underline (Ctrl+U)">
-        <i class="bi bi-type-underline"></i>
-      </button>
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="execute('strike')" ngbTooltip="Strikethrough">
-        <i class="bi bi-type-strikethrough"></i>
-      </button>
-    </div>
-  </div>
+    <!-- Font Section -->
+    <div class="toolbar-group px-2 border-end">
+      <div class="d-flex mb-1 align-items-center">
+        <div ngbDropdown class="d-inline-block me-1">
+          <button type="button" class="btn btn-light btn-sm dropdown-toggle font-select-btn" id="fontFamilyDropdown" ngbDropdownToggle>
+            {{currentFontFamily}}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="fontFamilyDropdown" class="font-dropdown-menu">
+            @for (family of fontFamilies; track family) {
+              <button ngbDropdownItem (click)="setFontFamily(family)" [style.font-family]="family">{{family}}</button>
+            }
+          </div>
+        </div>
 
-  <div class="toolbar-section px-2 border-end d-flex align-items-center">
-    <div ngbDropdown class="d-inline-block me-1">
-      <button type="button" class="btn btn-light btn-sm p-2" id="textColorDropdown" ngbDropdownToggle ngbTooltip="Font Color">
-        <i class="bi bi-palette-fill"></i>
-      </button>
-      <div ngbDropdownMenu aria-labelledby="textColorDropdown" class="color-picker-menu">
-        <div class="d-flex flex-wrap p-2" style="width: 150px;">
-          <div class="color-box" style="background: black;" (click)="setTextColor('black')"></div>
-          <div class="color-box" style="background: #444;" (click)="setTextColor('#444')"></div>
-          <div class="color-box" style="background: #888;" (click)="setTextColor('#888')"></div>
-          <div class="color-box" style="background: red;" (click)="setTextColor('red')"></div>
-          <div class="color-box" style="background: blue;" (click)="setTextColor('blue')"></div>
-          <div class="color-box" style="background: green;" (click)="setTextColor('green')"></div>
-          <div class="color-box" style="background: orange;" (click)="setTextColor('orange')"></div>
-          <div class="color-box" style="background: purple;" (click)="setTextColor('purple')"></div>
+        <div ngbDropdown class="d-inline-block">
+          <button type="button" class="btn btn-light btn-sm dropdown-toggle size-select-btn" id="fontSizeDropdown" ngbDropdownToggle>
+            {{currentFontSize}}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="fontSizeDropdown" class="size-dropdown-menu">
+            @for (size of fontSizes; track size) {
+              <button ngbDropdownItem (click)="setFontSize(size)">{{size}}</button>
+            }
+          </div>
         </div>
       </div>
-    </div>
-    <div ngbDropdown class="d-inline-block">
-      <button type="button" class="btn btn-light btn-sm p-2" id="bgColorDropdown" ngbDropdownToggle ngbTooltip="Text Highlight Color">
-        <i class="bi bi-highlighter"></i>
-      </button>
-      <div ngbDropdownMenu aria-labelledby="bgColorDropdown" class="color-picker-menu">
-        <div class="d-flex flex-wrap p-2" style="width: 150px;">
-          <div class="color-box" style="background: yellow;" (click)="setBackgroundColor('yellow')"></div>
-          <div class="color-box" style="background: lightgreen;" (click)="setBackgroundColor('lightgreen')"></div>
-          <div class="color-box" style="background: cyan;" (click)="setBackgroundColor('cyan')"></div>
-          <div class="color-box" style="background: pink;" (click)="setBackgroundColor('pink')"></div>
-          <div class="color-box" style="background: transparent; border: 1px solid #ccc;" (click)="setBackgroundColor('transparent')"></div>
+
+      <div class="d-flex justify-content-between">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('bold')" ngbTooltip="Bold (Ctrl+B)">
+            <i class="bi bi-type-bold"></i>
+          </button>
+          <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('italic')" ngbTooltip="Italic (Ctrl+I)">
+            <i class="bi bi-type-italic"></i>
+          </button>
+          <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('underline')" ngbTooltip="Underline (Ctrl+U)">
+            <i class="bi bi-type-underline"></i>
+          </button>
+          <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('strike')" ngbTooltip="Strikethrough">
+            <i class="bi bi-type-strikethrough"></i>
+          </button>
+        </div>
+
+        <div class="d-flex ms-2">
+           <div ngbDropdown class="d-inline-block me-1">
+            <button type="button" class="btn btn-light btn-sm p-1" id="textColorDropdown" ngbDropdownToggle ngbTooltip="Font Color">
+              <i class="bi bi-palette-fill" style="color: red; border-bottom: 3px solid red;"></i>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="textColorDropdown" class="color-picker-menu">
+              <div class="d-flex flex-wrap p-2" style="width: 150px;">
+                <div class="color-box" style="background: black;" (click)="setTextColor('black')"></div>
+                <div class="color-box" style="background: #444;" (click)="setTextColor('#444')"></div>
+                <div class="color-box" style="background: red;" (click)="setTextColor('red')"></div>
+                <div class="color-box" style="background: blue;" (click)="setTextColor('blue')"></div>
+                <div class="color-box" style="background: green;" (click)="setTextColor('green')"></div>
+                <div class="color-box" style="background: orange;" (click)="setTextColor('orange')"></div>
+              </div>
+            </div>
+          </div>
+
+          <div ngbDropdown class="d-inline-block">
+            <button type="button" class="btn btn-light btn-sm p-1" id="bgColorDropdown" ngbDropdownToggle ngbTooltip="Highlight Color">
+              <i class="bi bi-highlighter" style="border-bottom: 3px solid yellow;"></i>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="bgColorDropdown" class="color-picker-menu">
+              <div class="d-flex flex-wrap p-2" style="width: 150px;">
+                <div class="color-box" style="background: yellow;" (click)="setBackgroundColor('yellow')"></div>
+                <div class="color-box" style="background: lightgreen;" (click)="setBackgroundColor('lightgreen')"></div>
+                <div class="color-box" style="background: cyan;" (click)="setBackgroundColor('cyan')"></div>
+                <div class="color-box" style="background: pink;" (click)="setBackgroundColor('pink')"></div>
+                <div class="color-box" style="background: transparent; border: 1px solid #ccc;" (click)="setBackgroundColor('transparent')"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      <div class="group-label">Font</div>
+    </div>
+
+    <!-- Paragraph Section -->
+    <div class="toolbar-group px-2 border-end">
+      <div class="d-flex mb-1">
+         <div class="btn-group me-2" role="group">
+          <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('bullet_list')" ngbTooltip="Bullets">
+            <i class="bi bi-list-ul"></i>
+          </button>
+          <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('ordered_list')" ngbTooltip="Numbering">
+            <i class="bi bi-list-ol"></i>
+          </button>
+        </div>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('outdent')" ngbTooltip="Decrease Indent">
+            <i class="bi bi-text-indent-left"></i>
+          </button>
+          <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('indent')" ngbTooltip="Increase Indent">
+            <i class="bi bi-text-indent-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('align_left')" ngbTooltip="Align Left">
+            <i class="bi bi-justify-left"></i>
+          </button>
+          <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('align_center')" ngbTooltip="Center">
+            <i class="bi bi-justify-control"></i>
+          </button>
+          <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('align_right')" ngbTooltip="Align Right">
+            <i class="bi bi-justify-right"></i>
+          </button>
+          <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('align_justify')" ngbTooltip="Justify">
+            <i class="bi bi-justify"></i>
+          </button>
+        </div>
+      </div>
+      <div class="group-label">Paragraph</div>
+    </div>
+
+    <!-- Insert Section (Simplified) -->
+    <div class="toolbar-group px-2 d-flex flex-column align-items-center justify-content-center">
+       <div class="d-flex mb-1">
+        <button type="button" class="btn btn-light btn-sm p-1" (click)="insertLink()" ngbTooltip="Link">
+          <i class="bi bi-link-45deg"></i>
+        </button>
+        <button type="button" class="btn btn-light btn-sm p-1" (click)="insertImage()" ngbTooltip="Pictures">
+          <i class="bi bi-image"></i>
+        </button>
+      </div>
+      <div class="group-label">Insert</div>
     </div>
   </div>
 
-  <div class="toolbar-section px-2 border-end d-flex align-items-center">
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="execute('align_left')" ngbTooltip="Align Left (Ctrl+L)">
-        <i class="bi bi-justify-left"></i>
-      </button>
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="execute('align_center')" ngbTooltip="Center (Ctrl+E)">
-        <i class="bi bi-justify-control"></i>
-      </button>
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="execute('align_right')" ngbTooltip="Align Right (Ctrl+R)">
-        <i class="bi bi-justify-right"></i>
-      </button>
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="execute('align_justify')" ngbTooltip="Justify (Ctrl+J)">
-        <i class="bi bi-justify"></i>
-      </button>
+  <!-- Insert Tab Content -->
+  <div class="ribbon-toolbar d-flex flex-wrap align-items-center p-1 bg-light border-bottom" [class.d-none]="activeTab !== 'Insert'">
+    <div class="toolbar-group px-2 border-end d-flex flex-column align-items-center justify-content-center">
+      <div class="d-flex mb-1">
+        <button type="button" class="btn btn-light btn-sm p-2" (click)="insertImage()">
+          <div class="d-flex flex-column align-items-center">
+            <i class="bi bi-image fs-4"></i>
+            <span style="font-size: 10px;">Pictures</span>
+          </div>
+        </button>
+        <button type="button" class="btn btn-light btn-sm p-2" (click)="insertLink()">
+          <div class="d-flex flex-column align-items-center">
+            <i class="bi bi-link-45deg fs-4"></i>
+            <span style="font-size: 10px;">Link</span>
+          </div>
+        </button>
+      </div>
+      <div class="group-label">Illustrations</div>
     </div>
   </div>
 
-  <div class="toolbar-section px-2 border-end d-flex align-items-center">
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="execute('bullet_list')" ngbTooltip="Bullets">
-        <i class="bi bi-list-ul"></i>
-      </button>
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="execute('ordered_list')" ngbTooltip="Numbering">
-        <i class="bi bi-list-ol"></i>
-      </button>
-    </div>
-    <div class="btn-group ms-1" role="group">
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="execute('outdent')" ngbTooltip="Decrease Indent">
-        <i class="bi bi-text-indent-left"></i>
-      </button>
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="execute('indent')" ngbTooltip="Increase Indent">
-        <i class="bi bi-text-indent-right"></i>
-      </button>
+  <!-- Layout Tab Content -->
+  <div class="ribbon-toolbar d-flex flex-wrap align-items-center p-1 bg-light border-bottom" [class.d-none]="activeTab !== 'Layout'">
+    <div class="toolbar-group px-2 border-end d-flex flex-column align-items-center justify-content-center">
+      <div class="d-flex mb-1">
+        <button type="button" class="btn btn-light btn-sm p-2" (click)="setLayout('portrait')">
+          <div class="d-flex flex-column align-items-center">
+            <i class="bi bi-file-earmark fs-4"></i>
+            <span style="font-size: 10px;">Portrait</span>
+          </div>
+        </button>
+        <button type="button" class="btn btn-light btn-sm p-2" (click)="setLayout('landscape')">
+          <div class="d-flex flex-column align-items-center">
+            <i class="bi bi-file-earmark-landscape fs-4"></i>
+            <span style="font-size: 10px;">Landscape</span>
+          </div>
+        </button>
+      </div>
+      <div class="group-label">Orientation</div>
     </div>
   </div>
 
-  <div class="toolbar-section px-2 d-flex align-items-center">
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="insertLink()" ngbTooltip="Link (Ctrl+K)">
-        <i class="bi bi-link-45deg"></i>
-      </button>
-      <button type="button" class="btn btn-light btn-sm p-2" (click)="insertImage()" ngbTooltip="Pictures">
-        <i class="bi bi-image"></i>
-      </button>
+  <!-- View Tab Content -->
+  <div class="ribbon-toolbar d-flex flex-wrap align-items-center p-1 bg-light border-bottom" [class.d-none]="activeTab !== 'View'">
+    <div class="toolbar-group px-2 border-end d-flex flex-column align-items-center justify-content-center">
+      <div class="d-flex mb-1">
+        <button type="button" class="btn btn-light btn-sm p-2" (click)="toggleRule()">
+          <div class="d-flex flex-column align-items-center">
+            <i class="bi bi-rulers fs-4"></i>
+            <span style="font-size: 10px;">Ruler</span>
+          </div>
+        </button>
+        <button type="button" class="btn btn-light btn-sm p-2" (click)="zoom(100)">
+          <div class="d-flex flex-column align-items-center">
+            <i class="bi bi-zoom-in fs-4"></i>
+            <span style="font-size: 10px;">100%</span>
+          </div>
+        </button>
+      </div>
+      <div class="group-label">Show/Zoom</div>
+    </div>
+  </div>
+
+  <!-- Help Tab Content -->
+  <div class="ribbon-toolbar d-flex flex-wrap align-items-center p-1 bg-light border-bottom" [class.d-none]="activeTab !== 'Help'">
+    <div class="toolbar-group px-2 border-end d-flex flex-column align-items-center justify-content-center">
+      <div class="d-flex mb-1">
+        <button type="button" class="btn btn-light btn-sm p-2" (click)="showHelp()">
+          <div class="d-flex flex-column align-items-center">
+            <i class="bi bi-question-circle fs-4"></i>
+            <span style="font-size: 10px;">Help</span>
+          </div>
+        </button>
+      </div>
+      <div class="group-label">Support</div>
     </div>
   </div>
 </div>

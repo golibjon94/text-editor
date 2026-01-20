@@ -1,86 +1,140 @@
-.toolbar-container {
-  background-color: #f3f2f1 !important;
-  border-bottom: 1px solid #edebe9 !important;
+.word-ribbon-container {
+  background-color: #f3f2f1;
+  border-bottom: 1px solid #edebe9;
   z-index: 1000;
-  min-height: 40px;
+  font-family: 'Segoe UI', sans-serif;
 
-  .toolbar-section {
-    height: 32px;
+  .ribbon-tabs {
+    background-color: #2b579a; /* Word Blue Header */
+    color: white;
+    font-size: 12px;
+
+    .ribbon-tab {
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-bottom: none;
+      margin-right: 2px;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      &.active {
+        background-color: #f3f2f1;
+        color: #262626;
+        border-color: #f3f2f1;
+      }
+    }
+  }
+
+  .ribbon-toolbar {
+    min-height: 90px;
+    padding: 4px;
+    align-items: stretch !important;
+  }
+
+  .toolbar-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 2px;
+
+    .group-label {
+      font-size: 11px;
+      color: #605e5c;
+      margin-top: auto;
+      text-align: center;
+      width: 100%;
+    }
   }
 
   .btn-light {
     background: transparent;
-    border-color: transparent;
+    border: 1px solid transparent;
     color: #323130;
-    transition: background 0.1s ease;
+    border-radius: 2px;
 
     &:hover {
-      background-color: #edebe9;
+      background-color: #c8c8c8;
+      border-color: #b3b0ad;
     }
 
-    &:active, &.active {
-      background-color: #e1dfdd;
+    &:active {
+      background-color: #b3b0ad;
     }
   }
 
   .font-select-btn, .size-select-btn {
     text-align: left;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    border: 1px solid transparent;
+    background-color: white;
+    border: 1px solid #d2d0ce;
+    height: 24px;
+    padding: 0 6px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
 
     &:hover {
       border-color: #8a8886;
+      background-color: #fff;
+    }
+
+    &::after {
+      margin-left: auto;
     }
   }
 
   .font-select-btn {
-    width: 120px;
+    width: 140px;
   }
 
   .size-select-btn {
-    width: 60px;
+    width: 50px;
   }
 
   .font-dropdown-menu, .size-dropdown-menu {
     max-height: 300px;
     overflow-y: auto;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    border: none;
-    padding: 4px 0;
+    border: 1px solid #d2d0ce;
+    padding: 0;
+    border-radius: 0;
 
     .dropdown-item {
       padding: 4px 12px;
-      font-size: 0.9rem;
+      font-size: 12px;
+      cursor: pointer;
 
       &:hover {
-        background-color: #f3f2f1;
+        background-color: #cde6f7; /* Word selection blue */
+        color: black;
       }
     }
   }
 
   .color-picker-menu {
-    border: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 1px solid #d2d0ce;
+    border-radius: 0;
 
     .color-box {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       margin: 2px;
       cursor: pointer;
-      border-radius: 2px;
       border: 1px solid #edebe9;
 
       &:hover {
         transform: scale(1.1);
         border-color: #8a8886;
+        z-index: 1;
       }
     }
   }
 
   i {
-    font-size: 1.1rem;
-    line-height: 1;
+    font-size: 14px;
   }
 }

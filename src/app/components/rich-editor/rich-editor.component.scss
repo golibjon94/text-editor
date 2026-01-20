@@ -1,7 +1,14 @@
-.editor-wrapper {
-  background-color: #f3f2f1;
-  min-height: calc(100vh - 120px);
+.editor-outer-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 80px); /* Adjust based on header/footer */
+}
+
+.editor-scroller {
+  flex: 1;
+  overflow-y: auto;
   padding: 40px 0;
+  background-color: #f3f2f1;
   display: flex;
   justify-content: center;
 }
