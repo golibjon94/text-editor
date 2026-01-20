@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
     <div class="container mt-5 pt-5 text-center">
       <div class="card shadow-sm p-5">
         <h1>Section {{sectionNumber}}</h1>
-        <p class="lead text-muted">Hozircha bu sahifa bo'sh. Keyinchalik bu yerga boshqa demolar qo'shiladi.</p>
+        <p class="lead text-muted">This page is currently empty. More demos will be added here.</p>
         <div class="mt-4">
           <i class="bi bi-tools display-1 text-primary"></i>
         </div>
