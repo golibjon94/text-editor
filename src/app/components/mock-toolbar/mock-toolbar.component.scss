@@ -1,0 +1,28 @@
+.toolbar-container {
+  gap: 0.5rem;
+  background-color: #f8f9fa;
+  border-radius: 4px 4px 0 0;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+}
+
+.color-box {
+  width: 20px;
+  height: 20px;
+  margin: 2px;
+  cursor: pointer;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 2px;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 2px rgba(0,0,0,0.3);
+  }
+}
+
+.bi {
+  font-size: 1.1rem;
+  vertical-align: middle;
+}

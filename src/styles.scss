@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@use 'bootstrap/scss/bootstrap';
+
+/* Bootstrap Icons */
+@use 'bootstrap-icons/font/bootstrap-icons.css';
+
+/* NgxEditor styles */
+// Since we couldn't find the SCSS/CSS in node_modules/ngx-editor directly in the beta,
+// we might need to check if it's bundled or use a different path.
+// For now, let's comment it out if it fails, or try a common fallback.
+// @use 'ngx-editor/lib/styles/index';
+
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.NgxEditor__Wrapper {
+  background: white;
+}

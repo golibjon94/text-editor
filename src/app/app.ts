@@ -1,12 +1,11 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { EditorLayoutComponent } from './components/editor-layout/editor-layout.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  standalone: true,
+  imports: [EditorLayoutComponent],
+  template: `<app-editor-layout></app-editor-layout>`,
+  styles: []
 })
-export class App {
-  protected readonly title = signal('demo-word');
-}
+export class App {}

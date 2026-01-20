@@ -1,0 +1,28 @@
+.editor-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.editor-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.preview-section {
+  margin-top: 2rem;
+
+  .card {
+    height: 100%;
+  }
+
+  pre {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+}

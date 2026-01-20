@@ -1,0 +1,111 @@
+<div class="toolbar-container d-flex flex-wrap align-items-center p-2 bg-light border-bottom">
+  <div class="btn-group me-2" role="group">
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="execute('undo')" ngbTooltip="Undo">
+      <i class="bi bi-arrow-counterclockwise"></i>
+    </button>
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="execute('redo')" ngbTooltip="Redo">
+      <i class="bi bi-arrow-clockwise"></i>
+    </button>
+  </div>
+
+  <div class="btn-group me-2" role="group">
+    <div ngbDropdown class="d-inline-block">
+      <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" id="fontSizeDropdown" ngbDropdownToggle>
+        12pt
+      </button>
+      <div ngbDropdownMenu aria-labelledby="fontSizeDropdown">
+        @for (size of fontSizes; track size) {
+          <button ngbDropdownItem (click)="setFontSize(size)">{{size}}</button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-group me-2" role="group">
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="execute('bold')" ngbTooltip="Bold">
+      <i class="bi bi-type-bold"></i>
+    </button>
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="execute('italic')" ngbTooltip="Italic">
+      <i class="bi bi-type-italic"></i>
+    </button>
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="execute('underline')" ngbTooltip="Underline">
+      <i class="bi bi-type-underline"></i>
+    </button>
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="execute('strike')" ngbTooltip="Strikethrough">
+      <i class="bi bi-type-strikethrough"></i>
+    </button>
+  </div>
+
+  <div class="btn-group me-2" role="group">
+    <div ngbDropdown class="d-inline-block">
+      <button type="button" class="btn btn-outline-secondary btn-sm" id="textColorDropdown" ngbDropdownToggle ngbTooltip="Text Color">
+        <i class="bi bi-palette-fill"></i>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="textColorDropdown" class="color-picker-menu">
+        <div class="d-flex flex-wrap p-2" style="width: 150px;">
+          <div class="color-box" style="background: black;" (click)="setTextColor('black')"></div>
+          <div class="color-box" style="background: red;" (click)="setTextColor('red')"></div>
+          <div class="color-box" style="background: blue;" (click)="setTextColor('blue')"></div>
+          <div class="color-box" style="background: green;" (click)="setTextColor('green')"></div>
+          <div class="color-box" style="background: orange;" (click)="setTextColor('orange')"></div>
+        </div>
+      </div>
+    </div>
+    <div ngbDropdown class="d-inline-block">
+      <button type="button" class="btn btn-outline-secondary btn-sm" id="bgColorDropdown" ngbDropdownToggle ngbTooltip="Background Color">
+        <i class="bi bi-highlighter"></i>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="bgColorDropdown" class="color-picker-menu">
+        <div class="d-flex flex-wrap p-2" style="width: 150px;">
+          <div class="color-box" style="background: yellow;" (click)="setBackgroundColor('yellow')"></div>
+          <div class="color-box" style="background: lightgreen;" (click)="setBackgroundColor('lightgreen')"></div>
+          <div class="color-box" style="background: lightblue;" (click)="setBackgroundColor('lightblue')"></div>
+          <div class="color-box" style="background: pink;" (click)="setBackgroundColor('pink')"></div>
+          <div class="color-box" style="background: transparent; border: 1px solid #ccc;" (click)="setBackgroundColor('transparent')"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-group me-2" role="group">
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="execute('align_left')" ngbTooltip="Align Left">
+      <i class="bi bi-justify-left"></i>
+    </button>
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="execute('align_center')" ngbTooltip="Align Center">
+      <i class="bi bi-justify-control"></i>
+    </button>
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="execute('align_right')" ngbTooltip="Align Right">
+      <i class="bi bi-justify-right"></i>
+    </button>
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="execute('align_justify')" ngbTooltip="Justify">
+      <i class="bi bi-justify"></i>
+    </button>
+  </div>
+
+  <div class="btn-group me-2" role="group">
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="execute('bullet_list')" ngbTooltip="Bullet List">
+      <i class="bi bi-list-ul"></i>
+    </button>
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="execute('ordered_list')" ngbTooltip="Ordered List">
+      <i class="bi bi-list-ol"></i>
+    </button>
+  </div>
+
+  <div class="btn-group me-2" role="group">
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="execute('outdent')" ngbTooltip="Decrease Indent">
+      <i class="bi bi-text-indent-left"></i>
+    </button>
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="execute('indent')" ngbTooltip="Increase Indent">
+      <i class="bi bi-text-indent-right"></i>
+    </button>
+  </div>
+
+  <div class="btn-group me-2" role="group">
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="insertLink()" ngbTooltip="Insert Link">
+      <i class="bi bi-link-45deg"></i>
+    </button>
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="insertImage()" ngbTooltip="Insert Image">
+      <i class="bi bi-image"></i>
+    </button>
+  </div>
+</div>

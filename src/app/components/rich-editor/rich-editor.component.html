@@ -1,0 +1,22 @@
+<div class="editor-wrapper border rounded">
+  <app-mock-toolbar [editor]="editor"></app-mock-toolbar>
+
+  <div class="NgxEditor__Wrapper">
+    <ngx-editor
+      [editor]="editor"
+      [ngModel]="editorContent()"
+      (ngModelChange)="editorContent.set($event)"
+      placeholder="Type here..."
+    ></ngx-editor>
+  </div>
+</div>
+
+<div class="preview-panel mt-4 border rounded p-3 bg-white">
+  <h5 class="border-bottom pb-2 mb-3">HTML Preview</h5>
+  <div class="preview-content">
+    <pre><code>{{ editorContent() }}</code></pre>
+  </div>
+  <hr>
+  <h5>Rendered Preview</h5>
+  <div class="rendered-content border p-3 bg-light" [innerHTML]="editorContent()"></div>
+</div>
