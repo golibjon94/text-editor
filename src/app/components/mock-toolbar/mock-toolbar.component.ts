@@ -13,7 +13,23 @@ import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap'
 export class MockToolbarComponent {
   editor = input.required<Editor>();
 
-  fontSizes = ['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt'];
+  fontSizes = ['8pt', '9pt', '10pt', '11pt', '12pt', '14pt', '16pt', '18pt', '20pt', '22pt', '24pt', '26pt', '28pt', '36pt', '48pt', '72pt'];
+  fontFamilies = [
+    'Arial',
+    'Calibri',
+    'Cambria',
+    'Courier New',
+    'Georgia',
+    'Impact',
+    'Segoe UI',
+    'Tahoma',
+    'Times New Roman',
+    'Trebuchet MS',
+    'Verdana'
+  ];
+
+  currentFontSize = '12pt';
+  currentFontFamily = 'Arial';
 
   execute(command: string, value?: any): void {
     // In a real ngx-editor setup, we'd use the editor commands
@@ -54,9 +70,41 @@ export class MockToolbarComponent {
   }
 
   setFontSize(size: string): void {
-     // ngx-editor font size might need a plugin or specific schema,
-     // for now we'll just show the UI interaction
-     console.log('Set font size:', size);
+    this.currentFontSize = size;
+    const view = this.editor().view;
+    const { state } = view;
+    const { schema } = state;
+    const { from, to } = state.selection;
+
+    const markType = schema.marks['font_size'];
+    if (!markType) return;
+
+    const tr = state.tr;
+    if (from === to) {
+      tr.addStoredMark(markType.create({ size }));
+    } else {
+      tr.addMark(from, to, markType.create({ size }));
+    }
+    view.dispatch(tr);
+  }
+
+  setFontFamily(family: string): void {
+    this.currentFontFamily = family;
+    const view = this.editor().view;
+    const { state } = view;
+    const { schema } = state;
+    const { from, to } = state.selection;
+
+    const markType = schema.marks['font_family'];
+    if (!markType) return;
+
+    const tr = state.tr;
+    if (from === to) {
+      tr.addStoredMark(markType.create({ family }));
+    } else {
+      tr.addMark(from, to, markType.create({ family }));
+    }
+    view.dispatch(tr);
   }
 
   setTextColor(color: string): void {

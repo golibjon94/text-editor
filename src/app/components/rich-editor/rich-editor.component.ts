@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Editor, NgxEditorModule, toHTML } from 'ngx-editor';
 import { MockToolbarComponent } from '../mock-toolbar/mock-toolbar.component';
+import schema from '../../custom-schema';
 
 @Component({
   selector: 'app-rich-editor',
@@ -19,18 +20,20 @@ export class RichEditorComponent implements OnInit, OnDestroy {
 
   // Mock content
   private readonly initialContent = `
-    <h2>Welcome to the Rich Text Editor</h2>
-    <p>This is a <b>Word-like</b> editor built with <i>Angular 20</i>, <i>Signals</i>, and <i>ngx-editor</i>.</p>
+    <h2 style="text-align: center"><span style="font-family: Times New Roman">Welcome to the Rich Text Editor</span></h2>
+    <p style="text-align: center"><span style="font-size: 14pt">This is a <b>Word-like</b> editor built with <i>Angular 20</i>, <i>Signals</i>, and <i>ngx-editor</i>.</span></p>
+    <p>Try out the toolbar features above! You can now change <b>font sizes</b> and <b>font families</b> just like in Microsoft Word.</p>
     <ul>
-      <li>Standalone components</li>
-      <li>Signals for state management</li>
-      <li>ng-bootstrap for UI elements</li>
+      <li><span style="font-family: Courier New">Standalone components</span></li>
+      <li><span style="color: blue">Signals for state management</span></li>
+      <li><span style="background-color: yellow">ng-bootstrap for UI elements</span></li>
     </ul>
-    <p>Try out the toolbar features above!</p>
   `;
 
   constructor() {
-    this.editor = new Editor();
+    this.editor = new Editor({
+      schema: schema
+    });
     this.editorContent.set(this.initialContent);
 
     // Update signal when editor content changes

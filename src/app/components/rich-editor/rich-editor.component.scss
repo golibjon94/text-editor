@@ -1,45 +1,32 @@
 .editor-wrapper {
-  background: #fff;
-  min-height: 400px;
+  background-color: #f3f2f1;
+  min-height: calc(100vh - 120px);
+  padding: 40px 0;
   display: flex;
-  flex-direction: column;
-
-  .NgxEditor__Wrapper {
-    flex-grow: 1;
-    overflow-y: auto;
-    border: none !important;
-  }
+  justify-content: center;
 }
 
 :host ::ng-deep {
-  .NgxEditor {
-    min-height: 300px;
-    padding: 20px;
+  .NgxEditor__Wrapper {
+    width: 210mm; /* A4 width */
+    min-height: 297mm; /* A4 height */
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #d1d1d1;
+    margin: 0 auto;
 
-    &:focus {
+    .NgxEditor {
+      min-height: 297mm;
+      padding: 1in; /* Standard Word margins */
       outline: none;
+
+      p {
+        margin-bottom: 0.15in;
+      }
+    }
+
+    .NgxEditor__MenuBar {
+      display: none; /* We use our own toolbar */
     }
   }
-
-  .NgxEditor__Wrapper {
-    border: none !important;
-  }
-}
-
-.preview-panel {
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-
-  pre {
-    background: #f1f1f1;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-}
-
-.rendered-content {
-  min-height: 100px;
-  overflow-y: auto;
 }
