@@ -49,9 +49,9 @@ export class MockToolbarComponent {
 
   updateToolbarState(state: any) {
     const { selection } = state;
-    const { $from } = selection;
+    const { $from, $to } = selection;
 
-    // Get marks at cursor
+    // Tanlangan matn ichidagi barcha belgilarni tekshirish (yoki kursor turgan joydagi)
     const marks = $from.marks();
 
     const fontFamilyMark = marks.find((m: any) => m.type.name === 'font_family');
@@ -62,90 +62,86 @@ export class MockToolbarComponent {
   }
 
   execute(command: string, value?: any): void {
-    // In a real ngx-editor setup, we'd use the editor commands
-    // For this mock toolbar, we'll trigger the editor's internal commands if possible
-    // or just emit actions if we were building a fully custom one.
-    // ngx-editor usually has its own toolbar, but the requirement is a mock toolbar component.
+    const editor = this.editor();
+    if (!editor) return;
+
+    const commands = editor.commands;
 
     switch(command) {
-      case 'bold': this.editor().commands.toggleBold().exec(); break;
-      case 'italic': this.editor().commands.toggleItalics().exec(); break;
-      case 'underline': this.editor().commands.toggleUnderline().exec(); break;
-      case 'strike': this.editor().commands.toggleStrike().exec(); break;
-      case 'bullet_list': this.editor().commands.toggleBulletList().exec(); break;
-      case 'ordered_list': this.editor().commands.toggleOrderedList().exec(); break;
-      case 'align_left': this.editor().commands.align('left').exec(); break;
-      case 'align_center': this.editor().commands.align('center').exec(); break;
-      case 'align_right': this.editor().commands.align('right').exec(); break;
-      case 'align_justify': this.editor().commands.align('justify').exec(); break;
-      case 'undo': (this.editor() as any).commands.undo().exec(); break;
-      case 'redo': (this.editor() as any).commands.redo().exec(); break;
-      case 'indent': this.editor().commands.indent().exec(); break;
-      case 'outdent': this.editor().commands.outdent().exec(); break;
+      case 'bold': commands.toggleBold().exec(); break;
+      case 'italic': commands.toggleItalics().exec(); break;
+      case 'underline': commands.toggleUnderline().exec(); break;
+      case 'strike': commands.toggleStrike().exec(); break;
+      case 'bullet_list': commands.toggleBulletList().exec(); break;
+      case 'ordered_list': commands.toggleOrderedList().exec(); break;
+      case 'align_left': commands.align('left').exec(); break;
+      case 'align_center': commands.align('center').exec(); break;
+      case 'align_right': commands.align('right').exec(); break;
+      case 'align_justify': commands.align('justify').exec(); break;
+      case 'undo': (commands as any).undo().exec(); break;
+      case 'redo': (commands as any).redo().exec(); break;
+      case 'indent': commands.indent().exec(); break;
+      case 'outdent': commands.outdent().exec(); break;
     }
-    this.editor().view.focus();
+    editor.view.focus();
   }
 
   insertLink(): void {
+    const editor = this.editor();
     const url = prompt('Enter URL', 'https://');
-    if (url) {
-      this.editor().commands.insertLink(url, { href: url }).exec();
+    if (url && editor) {
+      editor.commands.insertLink(url, { href: url }).exec();
+      editor.view.focus();
     }
   }
 
   insertImage(): void {
+    const editor = this.editor();
     const url = prompt('Enter Image URL', 'https://picsum.photos/200/300');
-    if (url) {
-       this.editor().commands.insertImage(url).exec();
+    if (url && editor) {
+      editor.commands.insertImage(url).exec();
+      editor.view.focus();
     }
+  }
+
+  private applyMark(markName: string, attrs: any): void {
+    const view = this.editor().view;
+    const { state } = view;
+    const { schema, tr, selection } = state;
+    const { from, to } = selection;
+
+    const markType = schema.marks[markName];
+    if (!markType) return;
+
+    if (from === to) {
+      tr.addStoredMark(markType.create(attrs));
+    } else {
+      tr.addMark(from, to, markType.create(attrs));
+    }
+    view.dispatch(tr);
+    view.focus();
   }
 
   setFontSize(size: string): void {
     this.currentFontSize = size;
-    const view = this.editor().view;
-    const { state } = view;
-    const { schema } = state;
-    const { from, to } = state.selection;
-
-    const markType = schema.marks['font_size'];
-    if (!markType) return;
-
-    const tr = state.tr;
-    if (from === to) {
-      tr.addStoredMark(markType.create({ size }));
-    } else {
-      tr.addMark(from, to, markType.create({ size }));
-    }
-    view.dispatch(tr);
-    view.focus();
+    this.applyMark('font_size', { size });
   }
 
   setFontFamily(family: string): void {
     this.currentFontFamily = family;
-    const view = this.editor().view;
-    const { state } = view;
-    const { schema } = state;
-    const { from, to } = state.selection;
-
-    const markType = schema.marks['font_family'];
-    if (!markType) return;
-
-    const tr = state.tr;
-    if (from === to) {
-      tr.addStoredMark(markType.create({ family }));
-    } else {
-      tr.addMark(from, to, markType.create({ family }));
-    }
-    view.dispatch(tr);
-    view.focus();
+    this.applyMark('font_family', { family });
   }
 
   setTextColor(color: string): void {
-    this.editor().commands.textColor(color).exec();
+    const editor = this.editor();
+    editor.commands.textColor(color).exec();
+    editor.view.focus();
   }
 
   setBackgroundColor(color: string): void {
-    this.editor().commands.backgroundColor(color).exec();
+    const editor = this.editor();
+    editor.commands.backgroundColor(color).exec();
+    editor.view.focus();
   }
 
   setLayout(mode: 'portrait' | 'landscape'): void {

@@ -17,6 +17,9 @@
         <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('undo')" ngbTooltip="Undo (Ctrl+Z)">
           <i class="bi bi-arrow-counterclockwise"></i>
         </button>
+        <button type="button" class="btn btn-light btn-sm p-1" (click)="execute('redo')" ngbTooltip="Redo (Ctrl+Y)">
+          <i class="bi bi-arrow-clockwise"></i>
+        </button>
       </div>
       <div class="group-label">Clipboard</div>
     </div>
@@ -70,12 +73,9 @@
             </button>
             <div ngbDropdownMenu aria-labelledby="textColorDropdown" class="color-picker-menu">
               <div class="d-flex flex-wrap p-2" style="width: 150px;">
-                <div class="color-box" style="background: black;" (click)="setTextColor('black')"></div>
-                <div class="color-box" style="background: #444;" (click)="setTextColor('#444')"></div>
-                <div class="color-box" style="background: red;" (click)="setTextColor('red')"></div>
-                <div class="color-box" style="background: blue;" (click)="setTextColor('blue')"></div>
-                <div class="color-box" style="background: green;" (click)="setTextColor('green')"></div>
-                <div class="color-box" style="background: orange;" (click)="setTextColor('orange')"></div>
+                @for (color of ['black', '#444', 'red', 'blue', 'green', 'orange']; track color) {
+                  <div class="color-box" [style.background]="color" (click)="setTextColor(color)"></div>
+                }
               </div>
             </div>
           </div>
@@ -86,10 +86,9 @@
             </button>
             <div ngbDropdownMenu aria-labelledby="bgColorDropdown" class="color-picker-menu">
               <div class="d-flex flex-wrap p-2" style="width: 150px;">
-                <div class="color-box" style="background: yellow;" (click)="setBackgroundColor('yellow')"></div>
-                <div class="color-box" style="background: lightgreen;" (click)="setBackgroundColor('lightgreen')"></div>
-                <div class="color-box" style="background: cyan;" (click)="setBackgroundColor('cyan')"></div>
-                <div class="color-box" style="background: pink;" (click)="setBackgroundColor('pink')"></div>
+                @for (color of ['yellow', 'lightgreen', 'cyan', 'pink']; track color) {
+                  <div class="color-box" [style.background]="color" (click)="setBackgroundColor(color)"></div>
+                }
                 <div class="color-box" style="background: transparent; border: 1px solid #ccc;" (click)="setBackgroundColor('transparent')"></div>
               </div>
             </div>
